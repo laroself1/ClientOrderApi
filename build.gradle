@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'sampleapp'
+    version =  '0.1.0'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+
+    testCompile "org.mockito:mockito-core:2.+"
+    testCompile("junit:junit")
+    testCompile("io.rest-assured:spring-mock-mvc:3.0.2")
+}
+
+springBoot {
+    executable = true
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.2'
+}
+
+task stage (
+        dependsOn: ['compileJava', 'processResources', 'classes', 'findMainClass', 'jar', 'bootRepackage', 'assemble']
+)
